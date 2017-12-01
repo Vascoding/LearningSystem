@@ -1,0 +1,37 @@
+﻿@model EditCourseModel
+@{
+    ViewData["Title"] = "Edit Course";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label for="Name"></label>
+                <input name="Name" id="Name" type="text" value="@Model.Name"/>
+            </div>
+            <div class="form-group">
+                <label for="Description"></label>
+                <textarea name="Description" id="Description" placeholder="@Model.Description" type="text" rows="6" cols="35"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="StartDate"></label>
+                <input asp-for="StartDate" id="StartDate" type="date" value="@Model.StartDate" />
+            </div>
+            <div class="form-group">
+                <label for="EndDate"></label>
+                <input asp-for="EndDate" id="EndDate" type="date" value="@Model.EndDate" />
+            </div>
+            <button type="submit" class="btn btn-warning">Edit Course</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -1,0 +1,43 @@
+﻿@model SetTrainerModel
+@{
+    ViewData["Title"] = "Set Trainer To This Course";
+}
+<h2>@ViewData["Title"]</h2>
+
+<input type="text" readonly value="@Model.CourseName" />
+
+<hr />
+<h3>Users</h3>
+
+
+    <table class="table">
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Set As Trainer
+            </th>
+        </tr>
+        @foreach (var user in Model.Students)
+        {
+            <tr>
+                <th>
+                    @user.Id
+                </th>
+                <th>
+                    @user.Email
+                </th>
+                <th>
+                    <form method="post">
+                        <input hidden name="TrainerId" value="@user.Id" />
+                        <input hidden name="CourseId" value="@Model.CourseId" />
+                        <button type="submit" class="btn btn-primary">Set</button>
+                    </form>
+                </th>
+            </tr>
+        }
+    </table>

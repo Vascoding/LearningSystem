@@ -1,0 +1,40 @@
+﻿@model IEnumerable<StudentModel>
+@{
+    ViewData["Title"] = "All Students";
+}
+<h2>@ViewData["Title"]</h2>
+<div class="alert-success">
+    @TempData["Success"]
+</div>
+<table class="table">
+    <tr>
+        <td>
+            Email
+        </td>
+        <td>
+            Grade
+        </td>
+        <td>
+            Set Grade
+        </td>
+    </tr>
+    @foreach (var student in Model)
+    {
+        <tr>
+            <td>
+                @student.Email
+            </td>
+            <td>
+                @(student.Grade == null ? "No Grade" : student.Grade.ToString())
+            </td>
+            <td>
+                <form method="post">
+                    <select name="Grade" asp-items="Html.GetEnumSelectList<Grade>()" class="col-md-3"></select>
+                    <input hidden name="StudentId" value="@student.Id" />
+                    <input hidden name="CourseId" value="@student.CourseId" />
+                    <input type="submit" class="btn btn-primary" value="Submit" asp-controller="Trainers" asp-action="SetGrade"/>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

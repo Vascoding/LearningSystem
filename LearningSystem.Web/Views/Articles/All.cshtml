@@ -1,0 +1,43 @@
+﻿@model IEnumerable<ArticleModel>
+@{
+    ViewData["Title"] = "All Articles";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="alert-success">
+    @TempData["BloggerSet"]
+</div>
+
+<form>
+    <div>
+        <input type="search" placeholder="Search Artcles..." name="SearchTerm" />
+        <input type="submit" value="Search" />
+    </div>
+</form>
+<hr />
+
+@if (User.IsInRole(RoleConstants.BlogAuthor))
+{
+    <a class="btn btn-primary" href="/articles/create">Post New Article</a>
+}
+
+
+@if (User.IsInRole(RoleConstants.Admin))
+{
+    <a class="btn btn-primary" href="/admin/setblogger">Users</a>
+}
+
+<div class="row">
+    @foreach (var article in Model)
+    {
+        <article class="col-md-4">
+            <h2>
+                @article.Title
+            </h2>
+            <div class="text">
+                @article.Content
+            </div>
+        </article>
+    }
+</div>

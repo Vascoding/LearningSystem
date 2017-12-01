@@ -1,0 +1,79 @@
+﻿@model IEnumerable<CoursesModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<br />
+<form>
+    <div>
+        <input type="search" placeholder="Search Courses..." name="SearchTerm" />
+        <input type="submit" value="Search" />
+    </div>
+</form>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <tr>
+            <th>
+                Course Name
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                End Date
+            </th>
+            <th>
+                Sign Up Students
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var course in Model)
+        {
+            <tr>
+                <th>
+                    @course.Name
+                </th>
+                <th>
+                    @course.StartDate
+                </th>
+                <th>
+                    @course.EndDate
+                </th>
+                <th>
+                    @course.Students
+                </th>
+                <th>
+                    @if (User.IsInRole(RoleConstants.Admin))
+                    {
+                        <a class="btn btn-warning" href="/courses/edit/@course.Id">Edit</a>
+                        <a class="btn btn-default" href="/admin/settrainer/@course.Id">Add Trainer</a>
+                        <a class="btn btn-primary" href="/trainers/students/@course.Id">Students</a>
+                    }
+                    else if (User.IsInRole(RoleConstants.Trainer))
+                    {
+                        if (course.EndDate < DateTime.UtcNow)
+                        {
+                            <a class="btn btn-primary" href="/trainers/students/@course.Id">Students</a>
+                        }
+
+                    }
+                    else
+                    {
+                        if (course.StudentsEmails.Contains(User.Identity.Name))
+                        {
+                            <a class="btn btn-warning" href="/students/signout/@course.Id">Sign Out</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-success" href="/students/signup/@course.Id">Sign Up</a>
+                        }
+
+                    }
+                </th>
+            </tr>
+        }
+    </table>
+
+}
